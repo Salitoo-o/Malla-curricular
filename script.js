@@ -105,7 +105,6 @@ function renderMalla() {
       `;
 
       div.addEventListener("click", () => toggleMateria(m.id));
-      div.addEventListener("dblclick", () => resaltarDependientes(m.id));
       div.addEventListener("mouseenter", () => iniciarTooltip(m.id, div));
       div.addEventListener("mouseleave", ocultarTooltip);
       semDiv.appendChild(div);
@@ -152,7 +151,6 @@ function actualizarEstado() {
     el.classList.toggle("activa", ids.includes(m.id));
   });
 
-  actualizarSombreado();
   actualizarProgreso();
 }
 
@@ -177,48 +175,6 @@ function getCreditosAprobados() {
   return getAprobadas().reduce((acc, m) => acc + m.cr, 0);
 }
 
-// ========== 🔁 DOBLE CLIC ==========
-
-function resaltarDependientes(id) {
-  const materia = document.querySelector(`[data-id="${id}"]`);
-  if (!materia) return;
-
-  materia.classList.toggle("resaltada");
-
-  if (resaltadas.has(id)) {
-    resaltadas.delete(id);
-  } else {
-    resaltadas.add(id);
-  }
-
-  actualizarEstado();
-}
-
-// ========== 🟩 SOMBREADO PARCIAL ==========
-
-function actualizarSombreado() {
-  const idsResaltadas = Array.from(resaltadas);
-
-  if (idsResaltadas.length === 0) return;
-
-  materias.forEach(m => {
-    if (m.req.length === 0) return;
-
-    const interseccion = m.req.filter(req => idsResaltadas.includes(req));
-    const fraccion = interseccion.length / m.req.length;
-
-    const el = document.querySelector(`[data-id="${m.id}"]`);
-    if (!el || el.classList.contains("activa")) return;
-
-    if (fraccion === 1) {
-      el.classList.add("desbloqueada-total");
-    } else if (fraccion > 0) {
-      el.classList.add("desbloqueada-parcial");
-      el.style.background = `linear-gradient(to right, #9be7a0 ${fraccion * 100}%, #e0e0e0 ${fraccion * 100}%)`;
-    }
-  });
-}
-
 // ========== 🧠 TOOLTIP ==========
 
 let tooltipTimer = null;
@@ -226,12 +182,32 @@ let tooltipTimer = null;
 function iniciarTooltip(id, element) {
   tooltipTimer = setTimeout(() => {
     const tooltip = document.getElementById("tooltip");
+    const requisitos = materias.find(m => m.id === id)?.req || [];
     const desbloquea = materias.filter(m => m.req.includes(id));
-    if (desbloquea.length === 0) return;
 
-    tooltip.innerHTML = `<strong>Habilita:</strong><ul style="margin: 5px 0; padding-left: 18px;">` +
-      desbloquea.map(m => `<li>${m.nombre}</li>`).join("") +
-      `</ul>`;
+    const requisitosHtml = requisitos.length
+      ? requisitos.map(r => {
+          const mat = materias.find(m => m.id === r);
+          return `<li>${mat?.nombre || r}</li>`;
+        }).join("")
+      : "<li>Ninguno</li>";
+
+    const desbloqueaHtml = desbloquea.length
+      ? desbloquea.map(m => `<li>${m.nombre}</li>`).join("")
+      : "<li>Ninguna</li>";
+
+    tooltip.innerHTML = `
+      <div style="display: flex; gap: 20px;">
+        <div>
+          <strong>Requiere:</strong>
+          <ul style="margin: 5px 0; padding-left: 18px;">${requisitosHtml}</ul>
+        </div>
+        <div>
+          <strong>Habilita:</strong>
+          <ul style="margin: 5px 0; padding-left: 18px;">${desbloqueaHtml}</ul>
+        </div>
+      </div>
+    `;
 
     const rect = element.getBoundingClientRect();
     tooltip.style.left = `${rect.left}px`;
@@ -239,6 +215,7 @@ function iniciarTooltip(id, element) {
     tooltip.classList.remove("hidden");
   }, 1500);
 }
+
 
 function ocultarTooltip() {
   clearTimeout(tooltipTimer);

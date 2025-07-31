@@ -1,173 +1,185 @@
-/* ----------------------------------------
-🎓 ESTILO GENERAL Y ESTRUCTURA
----------------------------------------- */
+/* =====================================
+   🎨 PALETA DE COLORES (modificable)
+===================================== */
+:root {
+  --fondo: #f8f9fa;
+  --texto: #333;
+  --bloqueado: #d3d3d3;
+  --activo: #f48fb1;
+  --desbloqueado: #81b29a;
+  --hover: #a8dadc;
+  --barra: #457b9d;
+  --borde-semestre: #e0e0e0;
+  --tooltip-borde: #cccccc;
+  --tooltip-fondo: #ffffff;
+}
+
+/* ================================
+   📦 ESTILOS GENERALES
+================================ */
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f8f9fa;
+  background-color: var(--fondo);
   margin: 0;
   padding: 0;
-  color: #333;
+  color: var(--texto);
+}
+
+/* ================================
+   🧾 ENCABEZADO
+================================ */
+header {
+  text-align: center;
+  padding: 25px 10px 10px;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 h1 {
-  text-align: center;
-  font-size: 2em;
-  margin-top: 20px;
-  color: #333;
+  font-size: 2.4em;
+  margin: 0;
+  color: var(--desbloqueado);
 }
 
 h2 {
-  text-align: center;
   font-size: 1em;
+  margin-top: 6px;
   color: #777;
-  margin-bottom: 20px;
+  font-weight: normal;
 }
 
-/* ----------------------------------------
-📦 CONTENEDORES Y SEMESTRES
----------------------------------------- */
-#malla-curricular {
+/* ================================
+   🎓 CONTENEDOR DE LA MALLA
+================================ */
+.malla {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
-  padding: 20px;
+  gap: 25px;
+  padding: 30px;
 }
 
+/* ================================
+   📦 CADA SEMESTRE
+================================ */
 .semestre {
   background-color: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  width: 240px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  border-left: 6px solid var(--borde-semestre);
+  border-radius: 10px;
+  padding: 15px;
+  width: 280px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.3s;
 }
 
 .semestre h3 {
   text-align: center;
-  background-color: #dee2e6;
-  padding: 8px;
-  border-radius: 4px;
+  margin-bottom: 12px;
   font-size: 1.1em;
-  margin-bottom: 10px;
+  color: #444;
 }
 
-/* ----------------------------------------
-📚 MATERIAS
----------------------------------------- */
+/* ================================
+   📚 CADA MATERIA
+================================ */
 .materia {
-  background-color: #e0e0e0; /* COLOR BASE MATERIA */
-  color: #444;
-  padding: 10px;
-  margin: 6px 0;
-  border-radius: 6px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.3s, transform 0.2s;
+  background-color: var(--desbloqueado);
+  color: white;
+  margin: 6px 0;
+  padding: 10px 12px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: transform 0.2s, background-color 0.3s;
+  font-size: 14px;
+  position: relative;
 }
 
 .materia:hover {
-  transform: scale(1.02);
+  background-color: var(--hover);
 }
 
 .materia.activa {
-  background-color: #c7ecee; /* COLOR MATERIA APROBADA */
-  color: #000;
+  background-color: var(--activo);
 }
 
 .materia.bloqueada {
-  background-color: #cccccc; /* COLOR BLOQUEADA */
-  color: #888;
-  cursor: not-allowed;
-}
-
-/* Créditos en el lado derecho */
-.creditos {
-  font-weight: bold;
-  font-size: 0.9em;
-}
-
-/* ----------------------------------------
-🌈 PERSONALIZACIÓN DE INTERACCIÓN
----------------------------------------- */
-
-/* ✅ ACTIVA */
-.materia.activa {
-  background-color: #c3f4c5;
-  color: #000;
-}
-
-/* 🚫 BLOQUEADA */
-.materia.bloqueada {
-  background-color: #d6d6d6;
+  background-color: var(--bloqueado);
   color: #999;
   cursor: not-allowed;
 }
 
-/* 🌟 DOBLE CLIC – RESALTADA */
-.resaltada {
-  background-color: #fff176 !important; /* AMARILLO CLARO */
-  color: #000 !important;
+.materia .creditos {
+  font-weight: bold;
 }
 
-/* ✅ MATERIAS DESBLOQUEADAS TOTALMENTE */
-.desbloqueada-total {
-  background-color: #81c784 !important; /* VERDE VIVO */
-  color: #000;
+/* ================================
+   📊 BARRA DE PROGRESO
+================================ */
+footer {
+  padding: 30px 20px;
+  text-align: center;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  margin-top: 40px;
 }
 
-/* 🟩 MATERIAS DESBLOQUEADAS PARCIALMENTE */
-.desbloqueada-parcial {
-  color: #000;
-  background: linear-gradient(to right, #a5d6a7 50%, #e0e0e0 50%);
+.progress-container {
+  max-width: 500px;
+  margin: 0 auto;
+  font-size: 14px;
 }
 
-/* ----------------------------------------
-📊 BARRA DE PROGRESO
----------------------------------------- */
-#progreso-container {
-  width: 80%;
-  margin: 30px auto 20px;
-  background-color: #e0e0e0;
-  border-radius: 10px;
-  height: 24px;
-  position: relative;
+.progress-bar {
+  background-color: #ddd;
+  border-radius: 20px;
+  height: 20px;
+  overflow: hidden;
+  margin-top: 5px;
 }
 
 #progreso-barra {
   height: 100%;
   width: 0%;
-  background-color: #64b5f6; /* AZUL PROGRESO */
-  border-radius: 10px;
-  transition: width 0.5s ease;
+  background-color: var(--barra);
+  transition: width 0.3s ease;
+  border-radius: 20px;
 }
 
 #progreso-texto {
-  position: absolute;
-  top: 2px;
-  left: 10px;
-  font-size: 0.9em;
-  color: #000;
+  margin-top: 10px;
 }
 
-/* ----------------------------------------
-🧠 TOOLTIP ESTILO
----------------------------------------- */
-#tooltip {
-  position: absolute;
-  background: #ffffff;
-  border: 1px solid #ccc;
-  padding: 8px;
-  border-radius: 5px;
-  font-size: 0.85em;
-  max-width: 220px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 999;
-  transition: opacity 0.2s ease;
+/* ================================
+   🧠 TOOLTIP PERSONALIZADO
+================================ */
+.tooltip {
+  position: fixed;
+  background-color: var(--tooltip-fondo);
+  border: 1px solid var(--tooltip-borde);
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #333;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  max-width: 350px;
+  display: flex;
+  gap: 30px;
 }
 
-#tooltip.hidden {
+.tooltip div ul {
+  margin: 5px 0;
+  padding-left: 18px;
+}
+
+.tooltip div {
+  min-width: 120px;
+}
+
+.hidden {
   display: none;
 }

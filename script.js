@@ -1,125 +1,116 @@
-// Datos de las asignaturas
-const materias = [
-  {
-    id: "biocel", nombre: "Biología Celular y Molecular", cr: 4, sem: 1, req: []
-  },
-  { id: "quimica", nombre: "Química Integrada", cr: 3, sem: 1, req: [] },
-  { id: "mate", nombre: "Matemática", cr: 3, sem: 1, req: [] },
-  { id: "introvet", nombre: "Introducción a la MVZ", cr: 2, sem: 1, req: [] },
-  { id: "serlasa", nombre: "Ser Lasallista", cr: 2, sem: 1, req: [] },
-  { id: "lectoescritura", nombre: "Téc. de Lectura y Escritura", cr: 2, sem: 1, req: [] },
-
-  { id: "ecologia", nombre: "Ecología", cr: 3, sem: 2, req: [] },
-  { id: "formhum1", nombre: "Formación Humana (E)", cr: 2, sem: 2, req: [] },
-  { id: "bioq", nombre: "Bioquímica Aplicada", cr: 3, sem: 2, req: ["quimica"] },
-  { id: "histologia", nombre: "Histología y Embriología", cr: 3, sem: 2, req: ["biocel"] },
-  { id: "anatomia1", nombre: "Anatomía I", cr: 3, sem: 2, req: ["biocel"] },
-  { id: "bioestadistica", nombre: "Bioestadística", cr: 3, sem: 2, req: ["mate"] },
-
-  { id: "inmuno", nombre: "Inmunología", cr: 3, sem: 3, req: ["biocel", "bioq"] },
-  { id: "micro", nombre: "Microbiología", cr: 4, sem: 3, req: ["biocel", "bioq"] },
-  { id: "anatomia2", nombre: "Anatomía II", cr: 3, sem: 3, req: ["anatomia1"] },
-  { id: "metodologia", nombre: "Metodología Investigación", cr: 2, sem: 3, req: ["bioestadistica"] },
-  { id: "formhum2", nombre: "Formación Humana (E)", cr: 2, sem: 3, req: [] },
-  { id: "biofisica", nombre: "Biofísica", cr: 2, sem: 3, req: ["biocel"] },
-
-  { id: "fisio1", nombre: "Fisiología I", cr: 3, sem: 4, req: ["biofisica", "anatomia2"] },
-  { id: "admin", nombre: "Principios de Administración", cr: 2, sem: 4, req: [] },
-  { id: "genetica", nombre: "Genética Animal", cr: 3, sem: 4, req: ["biocel", "bioestadistica"] },
-  { id: "parasitologia", nombre: "Parasitología", cr: 4, sem: 4, req: ["histologia", "anatomia2"] },
-  { id: "disenoexp", nombre: "Diseño de Experimentos", cr: 3, sem: 4, req: ["metodologia"] },
-  { id: "extension", nombre: "Extensión Rural", cr: 2, sem: 4, req: [] },
-
-  { id: "fisio2", nombre: "Fisiología II", cr: 3, sem: 5, req: ["fisio1"] },
-  { id: "nutricion", nombre: "Nutrición Animal", cr: 3, sem: 5, req: ["bioq"] },
-  { id: "epidemio", nombre: "Epidemiología", cr: 3, sem: 5, req: ["disenoexp"] },
-  { id: "patologia1", nombre: "Patología I", cr: 3, sem: 5, req: ["histologia"] },
-  { id: "electiva1", nombre: "Electiva Profesional", cr: 2, sem: 5, req: [] },
-  { id: "etologia", nombre: "Etología y Bienestar Animal", cr: 2, sem: 5, req: [] },
-
-  { id: "semiologia", nombre: "Semiología Veterinaria", cr: 4, sem: 6, req: ["fisio2", "patologia1"] },
-  { id: "reproduccion", nombre: "Fisiología Reproductiva", cr: 2, sem: 6, req: ["fisio2"] },
-  { id: "patologia2", nombre: "Patología II", cr: 3, sem: 6, req: ["patologia1"] },
-  { id: "farmacologia", nombre: "Farmacología", cr: 3, sem: 6, req: ["fisio2"] },
-  { id: "electiva2", nombre: "Electiva Profesional", cr: 2, sem: 6, req: [] },
-  { id: "inocuidad", nombre: "Seguridad e Inocuidad", cr: 3, sem: 6, req: ["epidemio"] },
-
-  // Puedes seguir desde semestre 7 en adelante si lo deseas
-];
-
-// Agrupar materias por semestre
-function agruparMaterias() {
-  const container = document.querySelector(".malla");
-  const totalSemestres = Math.max(...materias.map(m => m.sem));
-
-  for (let i = 1; i <= totalSemestres; i++) {
-    const semBox = document.createElement("div");
-    semBox.className = "semestre";
-    semBox.innerHTML = `<h2>Semestre ${i}</h2>`;
-
-    const materiasSem = materias.filter(m => m.sem === i);
-    for (const m of materiasSem) {
-      const div = document.createElement("div");
-      div.className = "materia";
-      div.dataset.id = m.id;
-
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.className = "check";
-
-      const label = document.createElement("label");
-      label.innerText = `${m.nombre} (${m.cr} cr)`;
-
-      div.appendChild(checkbox);
-      div.appendChild(label);
-      semBox.appendChild(div);
-    }
-
-    container.appendChild(semBox);
-  }
+:root {
+  --color1: #355070;
+  --color2: #6d597a;
+  --color3: #b56576;
+  --color4: #e56b6f;
+  --color5: #eaac8b;
+  --colorTexto: #fff;
 }
 
-// Bloquear materias con requisitos al inicio
-function bloquear() {
-  materias.forEach(m => {
-    if (m.req.length > 0) {
-      const nodo = document.querySelector(`[data-id="${m.id}"]`);
-      if (nodo) {
-        nodo.classList.add("locked");
-        nodo.querySelector("input").disabled = true;
-      }
-    }
-  });
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f4f2;
+  margin: 0;
+  padding: 0;
+  color: var(--color1);
 }
 
-// Actualizar materias desbloqueadas
-function actualizarDisponibilidad() {
-  materias.forEach(m => {
-    const nodo = document.querySelector(`[data-id="${m.id}"]`);
-    if (!nodo) return;
-
-    const requisitosCumplidos = m.req.every(idReq => {
-      const req = document.querySelector(`[data-id="${idReq}"] input`);
-      return req?.checked;
-    });
-
-    if (requisitosCumplidos) {
-      nodo.classList.remove("locked");
-      nodo.querySelector("input").disabled = false;
-    } else {
-      if (m.req.length > 0) {
-        nodo.classList.add("locked");
-        nodo.querySelector("input").disabled = true;
-        nodo.querySelector("input").checked = false;
-      }
-    }
-  });
+header {
+  text-align: center;
+  padding: 20px;
 }
 
-window.onload = () => {
-  agruparMaterias();
-  bloquear();
-  document.querySelectorAll(".check").forEach(c => {
-    c.addEventListener("change", actualizarDisponibilidad);
-  });
-};
+h1 {
+  font-size: 2.2em;
+  margin-bottom: 0;
+  color: var(--color1);
+}
+
+h2 {
+  font-size: 1em;
+  margin-top: 5px;
+  color: var(--color2);
+  font-weight: normal;
+}
+
+.malla {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.semestre {
+  background-color: var(--color5);
+  border-left: 6px solid var(--color1);
+  border-radius: 10px;
+  padding: 10px 15px;
+  width: 280px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.semestre h3 {
+  text-align: center;
+  color: var(--color1);
+  margin-bottom: 10px;
+}
+
+.materia {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color2);
+  color: var(--colorTexto);
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.3s;
+}
+
+.materia:hover {
+  transform: scale(1.01);
+  opacity: 0.95;
+}
+
+.materia.activa {
+  background-color: var(--color3);
+}
+
+.materia.bloqueada {
+  background-color: #ddd;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.materia .creditos {
+  font-weight: bold;
+  color: var(--colorTexto);
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+}
+
+.progress-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.progress-bar {
+  background-color: #ddd;
+  border-radius: 20px;
+  height: 20px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+#progreso-barra {
+  height: 100%;
+  width: 0%;
+  background-color: var(--color4);
+  transition: width 0.3s ease;
+  border-radius: 20px;
+}

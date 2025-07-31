@@ -1,134 +1,173 @@
-:root {
-  --fondo: #f3f8fb;
-  --texto: #333;
-  --bloqueado: #d3d3d3;
-  --activo: #ff7b7b;
-  --desbloqueado: #9c89b8;
-  --hover: #7ec8e3;
-  --barra: #8ac6d1;
-}
-
+/* ----------------------------------------
+🎓 ESTILO GENERAL Y ESTRUCTURA
+---------------------------------------- */
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: var(--fondo);
+  background-color: #f8f9fa;
   margin: 0;
   padding: 0;
-  color: var(--texto);
-}
-
-header {
-  text-align: center;
-  padding: 20px 10px 5px;
+  color: #333;
 }
 
 h1 {
-  font-size: 2.2em;
-  margin-bottom: 0;
-  color: var(--desbloqueado);
+  text-align: center;
+  font-size: 2em;
+  margin-top: 20px;
+  color: #333;
 }
 
 h2 {
+  text-align: center;
   font-size: 1em;
-  margin-top: 5px;
-  color: #666;
-  font-weight: normal;
+  color: #777;
+  margin-bottom: 20px;
 }
 
-.malla {
+/* ----------------------------------------
+📦 CONTENEDORES Y SEMESTRES
+---------------------------------------- */
+#malla-curricular {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 16px;
   padding: 20px;
 }
 
 .semestre {
   background-color: #ffffff;
-  border-left: 6px solid var(--desbloqueado);
-  border-radius: 10px;
-  padding: 10px 15px;
-  width: 280px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  width: 240px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
 .semestre h3 {
   text-align: center;
+  background-color: #dee2e6;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 1.1em;
   margin-bottom: 10px;
 }
 
+/* ----------------------------------------
+📚 MATERIAS
+---------------------------------------- */
 .materia {
+  background-color: #e0e0e0; /* COLOR BASE MATERIA */
+  color: #444;
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 6px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--desbloqueado);
-  color: white;
-  margin: 6px 0;
-  padding: 10px;
-  border-radius: 8px;
+  transition: background 0.3s, transform 0.2s;
   cursor: pointer;
-  transition: transform 0.2s, background-color 0.3s;
-  font-size: 14px;
-  position: relative;
 }
 
 .materia:hover {
-  background-color: var(--hover);
+  transform: scale(1.02);
 }
 
 .materia.activa {
-  background-color: var(--activo);
+  background-color: #c7ecee; /* COLOR MATERIA APROBADA */
+  color: #000;
 }
 
 .materia.bloqueada {
-  background-color: var(--bloqueado);
+  background-color: #cccccc; /* COLOR BLOQUEADA */
+  color: #888;
+  cursor: not-allowed;
+}
+
+/* Créditos en el lado derecho */
+.creditos {
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+/* ----------------------------------------
+🌈 PERSONALIZACIÓN DE INTERACCIÓN
+---------------------------------------- */
+
+/* ✅ ACTIVA */
+.materia.activa {
+  background-color: #c3f4c5;
+  color: #000;
+}
+
+/* 🚫 BLOQUEADA */
+.materia.bloqueada {
+  background-color: #d6d6d6;
   color: #999;
   cursor: not-allowed;
 }
 
-.materia .creditos {
-  font-weight: bold;
+/* 🌟 DOBLE CLIC – RESALTADA */
+.resaltada {
+  background-color: #fff176 !important; /* AMARILLO CLARO */
+  color: #000 !important;
 }
 
-footer {
-  padding: 20px;
-  text-align: center;
+/* ✅ MATERIAS DESBLOQUEADAS TOTALMENTE */
+.desbloqueada-total {
+  background-color: #81c784 !important; /* VERDE VIVO */
+  color: #000;
 }
 
-.progress-container {
-  max-width: 500px;
-  margin: 0 auto;
+/* 🟩 MATERIAS DESBLOQUEADAS PARCIALMENTE */
+.desbloqueada-parcial {
+  color: #000;
+  background: linear-gradient(to right, #a5d6a7 50%, #e0e0e0 50%);
 }
 
-.progress-bar {
-  background-color: #ddd;
-  border-radius: 20px;
-  height: 20px;
-  overflow: hidden;
-  margin-top: 5px;
+/* ----------------------------------------
+📊 BARRA DE PROGRESO
+---------------------------------------- */
+#progreso-container {
+  width: 80%;
+  margin: 30px auto 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  height: 24px;
+  position: relative;
 }
 
 #progreso-barra {
   height: 100%;
   width: 0%;
-  background-color: var(--barra);
-  transition: width 0.3s ease;
-  border-radius: 20px;
+  background-color: #64b5f6; /* AZUL PROGRESO */
+  border-radius: 10px;
+  transition: width 0.5s ease;
 }
 
-/* Tooltip para ver materias desbloqueadas */
-.tooltip {
-  position: fixed;
-  background-color: #fff;
-  border: 1px solid var(--desbloqueado);
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 13px;
-  color: #333;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  z-index: 1000;
-  max-width: 300px;
+#progreso-texto {
+  position: absolute;
+  top: 2px;
+  left: 10px;
+  font-size: 0.9em;
+  color: #000;
 }
 
-.hidden {
+/* ----------------------------------------
+🧠 TOOLTIP ESTILO
+---------------------------------------- */
+#tooltip {
+  position: absolute;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 0.85em;
+  max-width: 220px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  transition: opacity 0.2s ease;
+}
+
+#tooltip.hidden {
   display: none;
 }

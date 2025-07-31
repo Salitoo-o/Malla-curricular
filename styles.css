@@ -1,114 +1,97 @@
-/* =====================================
-   🎨 PALETA DE COLORES (modificable)
-===================================== */
+/* ========== 🎨 VARIABLES DE COLOR ========== */
 :root {
-  --fondo: #f8f9fa;
-  --texto: #333;
-  --bloqueado: #d3d3d3;
-  --activo: #f48fb1;
-  --desbloqueado: #81b29a;
-  --hover: #a8dadc;
-  --barra: #457b9d;
-  --borde-semestre: #e0e0e0;
-  --tooltip-borde: #cccccc;
-  --tooltip-fondo: #ffffff;
+  --color-principal: #355070;
+  --color-secundario: #6d597a;
+  --color-activa: #e56b6f;
+  --color-hover: #b56576;
+  --color-barra: #eaac8b;
+  --color-bloqueada: #d3d3d3;
+  --color-texto: #ffffff;
+  --color-fondo: #fefefe;
+  --color-semestre-borde: #6d597a;
+  --color-tooltip-borde: #ccc;
 }
 
-/* ================================
-   📦 ESTILOS GENERALES
-================================ */
+/* ========== 🧱 ESTILO GENERAL ========== */
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: var(--fondo);
+  background-color: var(--color-fondo);
   margin: 0;
   padding: 0;
-  color: var(--texto);
+  color: #333;
 }
 
-/* ================================
-   🧾 ENCABEZADO
-================================ */
+/* ========== 🧢 ENCABEZADO ========== */
 header {
   text-align: center;
-  padding: 25px 10px 10px;
-  border-bottom: 1px solid #ddd;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  padding: 20px 10px 5px;
+  background-color: var(--color-principal);
+  color: var(--color-texto);
 }
 
 h1 {
-  font-size: 2.4em;
-  margin: 0;
-  color: var(--desbloqueado);
+  font-size: 2.2em;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
 h2 {
   font-size: 1em;
-  margin-top: 6px;
-  color: #777;
+  margin-top: 0;
   font-weight: normal;
+  color: #eee;
 }
 
-/* ================================
-   🎓 CONTENEDOR DE LA MALLA
-================================ */
+/* ========== 🧩 MALLA CURRICULAR ========== */
 .malla {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 25px;
-  padding: 30px;
+  gap: 20px;
+  padding: 20px;
 }
 
-/* ================================
-   📦 CADA SEMESTRE
-================================ */
 .semestre {
-  background-color: #ffffff;
-  border-left: 6px solid var(--borde-semestre);
+  background-color: #fff;
+  border-left: 6px solid var(--color-semestre-borde);
   border-radius: 10px;
   padding: 15px;
   width: 280px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
-  transition: border-color 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
 }
 
 .semestre h3 {
   text-align: center;
   margin-bottom: 12px;
-  font-size: 1.1em;
-  color: #444;
+  color: var(--color-principal);
 }
 
-/* ================================
-   📚 CADA MATERIA
-================================ */
+/* ========== 📚 BOTONES DE MATERIA ========== */
 .materia {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--desbloqueado);
-  color: white;
-  margin: 6px 0;
+  background-color: var(--color-secundario);
+  color: var(--color-texto);
+  margin: 7px 0;
   padding: 10px 12px;
   border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.2s, background-color 0.3s;
   font-size: 14px;
-  position: relative;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .materia:hover {
-  background-color: var(--hover);
+  background-color: var(--color-hover);
 }
 
 .materia.activa {
-  background-color: var(--activo);
+  background-color: var(--color-activa);
 }
 
 .materia.bloqueada {
-  background-color: var(--bloqueado);
-  color: #999;
+  background-color: var(--color-bloqueada);
+  color: #777;
   cursor: not-allowed;
 }
 
@@ -116,21 +99,15 @@ h2 {
   font-weight: bold;
 }
 
-/* ================================
-   📊 BARRA DE PROGRESO
-================================ */
+/* ========== 📊 PROGRESO ========== */
 footer {
-  padding: 30px 20px;
+  padding: 20px;
   text-align: center;
-  background-color: #fff;
-  border-top: 1px solid #ddd;
-  margin-top: 40px;
 }
 
 .progress-container {
   max-width: 500px;
   margin: 0 auto;
-  font-size: 14px;
 }
 
 .progress-bar {
@@ -144,40 +121,46 @@ footer {
 #progreso-barra {
   height: 100%;
   width: 0%;
-  background-color: var(--barra);
+  background-color: var(--color-barra);
   transition: width 0.3s ease;
   border-radius: 20px;
 }
 
 #progreso-texto {
-  margin-top: 10px;
+  margin-top: 5px;
+  font-weight: bold;
 }
 
-/* ================================
-   🧠 TOOLTIP PERSONALIZADO
-================================ */
+/* ========== 🧠 TOOLTIP ========== */
 .tooltip {
   position: fixed;
-  background-color: var(--tooltip-fondo);
-  border: 1px solid var(--tooltip-borde);
-  padding: 10px 14px;
+  background-color: #fff;
+  border: 1px solid var(--color-tooltip-borde);
+  padding: 8px 12px;
   border-radius: 6px;
   font-size: 13px;
   color: #333;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  max-width: 350px;
+  max-width: 340px;
   display: flex;
-  gap: 30px;
+  gap: 20px;
 }
 
-.tooltip div ul {
-  margin: 5px 0;
-  padding-left: 18px;
+.tooltip-column {
+  flex: 1;
 }
 
-.tooltip div {
-  min-width: 120px;
+.tooltip-column h4 {
+  margin: 0 0 5px;
+  font-size: 13px;
+  color: var(--color-principal);
+}
+
+.tooltip-column ul {
+  margin: 0;
+  padding-left: 16px;
+  list-style-type: disc;
 }
 
 .hidden {

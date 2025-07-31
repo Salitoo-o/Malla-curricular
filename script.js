@@ -4,59 +4,79 @@
 
 const materias = [
   // SEMESTRE 1
-  { id: "biol", nombre: "Biología Celular", sem: 1, cr: 3, req: [] },
-  { id: "quim", nombre: "Química General", sem: 1, cr: 3, req: [] },
-  { id: "zool", nombre: "Zoología", sem: 1, cr: 3, req: [] },
-  { id: "anatom", nombre: "Anatomía Veterinaria", sem: 1, cr: 4, req: [] },
-  { id: "intro", nombre: "Introducción a la MVZ", sem: 1, cr: 2, req: [] },
+  { id: "biocel", nombre: "Biología Celular y Molecular", cr: 4, sem: 1, req: [] },
+  { id: "quimica", nombre: "Química Integrada", cr: 3, sem: 1, req: [] },
+  { id: "mate", nombre: "Matemática", cr: 3, sem: 1, req: [] },
+  { id: "introvet", nombre: "Introducción a la MVZ", cr: 2, sem: 1, req: [] },
+  { id: "serlasa", nombre: "Ser Lasallista", cr: 2, sem: 1, req: [] },
+  { id: "lectoescritura", nombre: "Téc. Lectura y Escritura", cr: 2, sem: 1, req: [] },
 
   // SEMESTRE 2
-  { id: "fisio", nombre: "Fisiología", sem: 2, cr: 4, req: ["anatom"] },
-  { id: "bioq", nombre: "Bioquímica", sem: 2, cr: 3, req: ["quim", "biol"] },
-  { id: "micro", nombre: "Microbiología", sem: 2, cr: 3, req: ["bioq"] },
-  { id: "genet", nombre: "Genética", sem: 2, cr: 3, req: ["biol"] },
+  { id: "formhum1", nombre: "Formación Humana (E)", cr: 2, sem: 2, req: [] },
+  { id: "ecologia", nombre: "Ecología", cr: 3, sem: 2, req: [] },
+  { id: "bioq", nombre: "Bioquímica Aplicada", cr: 3, sem: 2, req: ["quimica"] },
+  { id: "histologia", nombre: "Histología y Embriología", cr: 3, sem: 2, req: ["biocel"] },
+  { id: "anatomia1", nombre: "Anatomía I", cr: 3, sem: 2, req: ["biocel"] },
+  { id: "bioestadistica", nombre: "Bioestadística", cr: 3, sem: 2, req: ["mate"] },
 
   // SEMESTRE 3
-  { id: "pat1", nombre: "Patología General", sem: 3, cr: 3, req: ["fisio", "micro"] },
-  { id: "farmaco", nombre: "Farmacología", sem: 3, cr: 3, req: ["fisio", "bioq"] },
-  { id: "par1", nombre: "Parasitología", sem: 3, cr: 3, req: ["micro"] },
-  { id: "nutri", nombre: "Nutrición Animal", sem: 3, cr: 3, req: ["fisio"] },
+  { id: "inmuno", nombre: "Inmunología", cr: 3, sem: 3, req: ["biocel", "bioq"] },
+  { id: "micro", nombre: "Microbiología", cr: 4, sem: 3, req: ["biocel", "bioq"] },
+  { id: "anatomia2", nombre: "Anatomía II", cr: 3, sem: 3, req: ["anatomia1"] },
+  { id: "metodologia", nombre: "Metodología Inv.", cr: 2, sem: 3, req: ["bioestadistica"] },
+  { id: "formhum2", nombre: "Formación Humana (E)", cr: 2, sem: 3, req: [] },
+  { id: "biofisica", nombre: "Biofísica", cr: 2, sem: 3, req: ["biocel"] },
 
   // SEMESTRE 4
-  { id: "pat2", nombre: "Patología Sistémica", sem: 4, cr: 3, req: ["pat1"] },
-  { id: "par2", nombre: "Parasitología Clínica", sem: 4, cr: 3, req: ["par1"] },
-  { id: "repro", nombre: "Reproducción Animal", sem: 4, cr: 3, req: ["fisio"] },
-  { id: "toxico", nombre: "Toxicología", sem: 4, cr: 3, req: ["farmaco"] },
+  { id: "fisio1", nombre: "Fisiología I", cr: 3, sem: 4, req: ["biofisica", "anatomia2"] },
+  { id: "admin", nombre: "Principios de Administración", cr: 2, sem: 4, req: [] },
+  { id: "genetica", nombre: "Genética Animal", cr: 3, sem: 4, req: ["biocel", "bioestadistica"] },
+  { id: "parasitologia", nombre: "Parasitología", cr: 4, sem: 4, req: ["histologia", "anatomia2"] },
+  { id: "disenoexp", nombre: "Diseño de Experimentos", cr: 3, sem: 4, req: ["metodologia"] },
+  { id: "extension", nombre: "Extensión Rural", cr: 2, sem: 4, req: [] },
 
   // SEMESTRE 5
-  { id: "clinica1", nombre: "Clínica Médica de Pequeños", sem: 5, cr: 4, req: ["pat2", "farmaco", "par2"] },
-  { id: "clinica2", nombre: "Clínica Quirúrgica", sem: 5, cr: 4, req: ["anatom", "farmaco"] },
-  { id: "epidemio", nombre: "Epidemiología", sem: 5, cr: 3, req: ["micro"] },
-  { id: "prod1", nombre: "Producción Animal I", sem: 5, cr: 3, req: ["nutri", "repro"] },
+  { id: "fisio2", nombre: "Fisiología II", cr: 3, sem: 5, req: ["fisio1"] },
+  { id: "nutricion", nombre: "Nutrición Animal", cr: 3, sem: 5, req: ["bioq"] },
+  { id: "epidemio", nombre: "Epidemiología", cr: 3, sem: 5, req: ["disenoexp"] },
+  { id: "patologia1", nombre: "Patología I", cr: 3, sem: 5, req: ["histologia"] },
+  { id: "electiva1", nombre: "Electiva Profesional", cr: 2, sem: 5, req: [] },
+  { id: "etologia", nombre: "Etología Animal", cr: 2, sem: 5, req: [] },
 
   // SEMESTRE 6
-  { id: "clinica3", nombre: "Clínica Médica de Grandes", sem: 6, cr: 4, req: ["clinica1", "prod1"] },
-  { id: "imagen", nombre: "Imagenología", sem: 6, cr: 3, req: ["clinica1"] },
-  { id: "sanidad", nombre: "Sanidad Animal", sem: 6, cr: 3, req: ["epidemio"] },
-  { id: "prod2", nombre: "Producción Animal II", sem: 6, cr: 3, req: ["prod1"] },
+  { id: "semiologia", nombre: "Semiología Veterinaria", cr: 4, sem: 6, req: ["fisio2", "patologia1"] },
+  { id: "repro", nombre: "Fisiología Reprod.", cr: 2, sem: 6, req: ["fisio2"] },
+  { id: "patologia2", nombre: "Patología II", cr: 3, sem: 6, req: ["patologia1"] },
+  { id: "farmaco", nombre: "Farmacología", cr: 3, sem: 6, req: ["fisio2"] },
+  { id: "electiva2", nombre: "Electiva Profesional", cr: 2, sem: 6, req: [] },
+  { id: "inocuidad", nombre: "Seguridad Alimentaria", cr: 3, sem: 6, req: ["epidemio"] },
 
   // SEMESTRE 7
-  { id: "clinica4", nombre: "Clínica Quirúrgica de Grandes", sem: 7, cr: 4, req: ["clinica2", "clinica3"] },
-  { id: "labdiag", nombre: "Laboratorio Clínico", sem: 7, cr: 3, req: ["par2", "pat2"] },
-  { id: "etologia", nombre: "Etología y Bienestar", sem: 7, cr: 2, req: ["clinica1"] },
+  { id: "reprobiotec", nombre: "Reproducción y Biotec. Animal", cr: 4, sem: 7, req: ["repro", "patologia2"] },
+  { id: "saludpub", nombre: "Salud Pública", cr: 3, sem: 7, req: ["inocuidad"] },
+  { id: "patoclinica", nombre: "Patología Clínica Vet.", cr: 3, sem: 7, req: ["patologia2"] },
+  { id: "imagen", nombre: "Imaginología", cr: 3, sem: 7, req: ["semiologia"] },
+  { id: "toxicol", nombre: "Toxicología", cr: 2, sem: 7, req: ["farmaco"] },
+  { id: "electiva3", nombre: "Electiva Profesional", cr: 2, sem: 7, req: [] },
 
   // SEMESTRE 8
-  { id: "zoo1", nombre: "Zootecnia I", sem: 8, cr: 3, req: ["prod2"] },
-  { id: "inocuidad", nombre: "Inocuidad Alimentaria", sem: 8, cr: 3, req: ["sanidad"] },
-  { id: "saludp", nombre: "Salud Pública Veterinaria", sem: 8, cr: 3, req: ["epidemio"] },
+  { id: "peq1", nombre: "Clínica Med. Peq. Esp. I", cr: 3, sem: 8, req: ["farmaco", "semiologia", "patoclinica", "imagen"] },
+  { id: "rumiantes", nombre: "Clínica Med. Rumiantes", cr: 3, sem: 8, req: ["farmaco", "semiologia", "patoclinica", "imagen"] },
+  { id: "equinos1", nombre: "Clínica Med. Equinos I", cr: 3, sem: 8, req: ["farmaco", "semiologia", "patoclinica", "imagen"] },
+  { id: "gestion", nombre: "Gestión Contable", cr: 3, sem: 8, req: [] },
+  { id: "cirugia1", nombre: "Cirugía I", cr: 3, sem: 8, req: ["farmaco", "semiologia", "patoclinica"] },
+  { id: "deonto", nombre: "Deontología y Bioética", cr: 2, sem: 8, req: [] },
 
   // SEMESTRE 9
-  { id: "zoo2", nombre: "Zootecnia II", sem: 9, cr: 3, req: ["zoo1"] },
-  { id: "gestion", nombre: "Gestión Empresarial Vet.", sem: 9, cr: 3, req: ["prod2"] },
-  { id: "bioetica", nombre: "Bioética", sem: 9, cr: 2, req: ["etologia"] },
+  { id: "peq2", nombre: "Clínica Med. Peq. Esp. II", cr: 3, sem: 9, req: ["peq1"] },
+  { id: "equinos2", nombre: "Clínica Med. Equinos II", cr: 3, sem: 9, req: ["equinos1"] },
+  { id: "porcinos", nombre: "Clínica Med. Porcinos", cr: 3, sem: 9, req: ["farmaco", "semiologia", "patoclinica"] },
+  { id: "cirugia2", nombre: "Cirugía II", cr: 3, sem: 9, req: ["cirugia1"] },
+  { id: "aviar", nombre: "Medicina Aviar", cr: 2, sem: 9, req: ["farmaco", "semiologia", "epidemio"] },
+  { id: "proyectos", nombre: "Formulación Proyectos", cr: 3, sem: 9, req: [] },
 
   // SEMESTRE 10
-  { id: "trabajo", nombre: "Trabajo de Grado", sem: 10, cr: 4, req: [] }
+  { id: "trabajo", nombre: "Trabajo de Grado", cr: 16, sem: 10, req: [] } // 80% validación especial
 ];
 
 // =====================

@@ -1,35 +1,36 @@
 :root {
-  --color1: #355070;
-  --color2: #6d597a;
-  --color3: #b56576;
-  --color4: #e56b6f;
-  --color5: #eaac8b;
-  --colorTexto: #fff;
+  --fondo: #f3f8fb;
+  --texto: #333;
+  --bloqueado: #d3d3d3;
+  --activo: #ff7b7b;
+  --desbloqueado: #9c89b8;
+  --hover: #7ec8e3;
+  --barra: #8ac6d1;
 }
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f9f4f2;
+  background-color: var(--fondo);
   margin: 0;
   padding: 0;
-  color: var(--color1);
+  color: var(--texto);
 }
 
 header {
   text-align: center;
-  padding: 20px;
+  padding: 20px 10px 5px;
 }
 
 h1 {
   font-size: 2.2em;
   margin-bottom: 0;
-  color: var(--color1);
+  color: var(--desbloqueado);
 }
 
 h2 {
   font-size: 1em;
   margin-top: 5px;
-  color: var(--color2);
+  color: #666;
   font-weight: normal;
 }
 
@@ -42,17 +43,16 @@ h2 {
 }
 
 .semestre {
-  background-color: var(--color5);
-  border-left: 6px solid var(--color1);
+  background-color: #ffffff;
+  border-left: 6px solid var(--desbloqueado);
   border-radius: 10px;
   padding: 10px 15px;
   width: 280px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .semestre h3 {
   text-align: center;
-  color: var(--color1);
   margin-bottom: 10px;
 }
 
@@ -60,33 +60,33 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--color2);
-  color: var(--colorTexto);
+  background-color: var(--desbloqueado);
+  color: white;
   margin: 6px 0;
   padding: 10px;
   border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.2s, opacity 0.3s;
+  transition: transform 0.2s, background-color 0.3s;
+  font-size: 14px;
+  position: relative;
 }
 
 .materia:hover {
-  transform: scale(1.01);
-  opacity: 0.95;
+  background-color: var(--hover);
 }
 
 .materia.activa {
-  background-color: var(--color3);
+  background-color: var(--activo);
 }
 
 .materia.bloqueada {
-  background-color: #ddd;
+  background-color: var(--bloqueado);
   color: #999;
   cursor: not-allowed;
 }
 
 .materia .creditos {
   font-weight: bold;
-  color: var(--colorTexto);
 }
 
 footer {
@@ -110,7 +110,25 @@ footer {
 #progreso-barra {
   height: 100%;
   width: 0%;
-  background-color: var(--color4);
+  background-color: var(--barra);
   transition: width 0.3s ease;
   border-radius: 20px;
+}
+
+/* Tooltip para ver materias desbloqueadas */
+.tooltip {
+  position: fixed;
+  background-color: #fff;
+  border: 1px solid var(--desbloqueado);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #333;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  max-width: 300px;
+}
+
+.hidden {
+  display: none;
 }

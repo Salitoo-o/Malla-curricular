@@ -76,6 +76,7 @@ const materias = [
 ];
 
 const totalCreditos = materias.reduce((acc, m) => acc + m.cr, 0);
+const resaltadas = new Set();
 
 function renderMalla() {
   const contenedor = document.getElementById("malla-curricular");
@@ -94,7 +95,9 @@ function renderMalla() {
         <span>${m.nombre}</span>
         <span class="creditos">${m.cr}</span>
       `;
+
       div.addEventListener("click", () => toggleMateria(m.id));
+      div.addEventListener("dblclick", () => resaltarDependientes(m.id));
       div.addEventListener("mouseenter", () => iniciarTooltip(m.id, div));
       div.addEventListener("mouseleave", ocultarTooltip);
       semDiv.appendChild(div);
@@ -125,6 +128,12 @@ function actualizarEstado() {
     const desbloqueada = m.req.every(r => ids.includes(r));
     const cumple80 = (getCreditosAprobados() / totalCreditos) >= 0.8;
 
+    el.classList.remove("bloqueada", "resaltada", "desbloqueada-parcial", "desbloqueada-total");
+
+    if (resaltadas.has(m.id)) {
+      el.classList.add("resaltada");
+    }
+
     if (m.id === "trabajo") {
       if (!cumple80) {
         el.classList.add("bloqueada");
@@ -133,12 +142,15 @@ function actualizarEstado() {
       }
     }
 
-    el.classList.remove("bloqueada");
     if (!desbloqueada) el.classList.add("bloqueada");
-
     el.classList.toggle("activa", ids.includes(m.id));
   });
 
+  actualizarSombreado();
+  actualizarProgreso();
+}
+
+function actualizarProgreso() {
   const progreso = getCreditosAprobados();
   const porcentaje = Math.round((progreso / totalCreditos) * 100);
   document.getElementById("progreso-barra").style.width = `${porcentaje}%`;
@@ -159,7 +171,47 @@ function getCreditosAprobados() {
   return getAprobadas().reduce((acc, m) => acc + m.cr, 0);
 }
 
-// TOOLTIP AUTOMÁTICO
+// 🔍 DOBLE CLIC PARA RESALTAR DEPENDENCIAS
+function resaltarDependientes(id) {
+  const materia = document.querySelector(`[data-id="${id}"]`);
+  if (!materia) return;
+
+  materia.classList.toggle("resaltada");
+
+  if (resaltadas.has(id)) {
+    resaltadas.delete(id);
+  } else {
+    resaltadas.add(id);
+  }
+
+  actualizarEstado();
+}
+
+// 🎯 SOMBREADO PARCIAL DE DEPENDENCIAS
+function actualizarSombreado() {
+  const idsResaltadas = Array.from(resaltadas);
+
+  if (idsResaltadas.length === 0) return;
+
+  materias.forEach(m => {
+    if (m.req.length === 0) return;
+
+    const interseccion = m.req.filter(req => idsResaltadas.includes(req));
+    const fraccion = interseccion.length / m.req.length;
+
+    const el = document.querySelector(`[data-id="${m.id}"]`);
+    if (!el || el.classList.contains("activa")) return;
+
+    if (fraccion === 1) {
+      el.classList.add("desbloqueada-total");
+    } else if (fraccion > 0) {
+      el.classList.add("desbloqueada-parcial");
+      el.style.background = `linear-gradient(to right, #9be7a0 ${fraccion * 100}%, #e0e0e0 ${fraccion * 100}%)`;
+    }
+  });
+}
+
+// 🧠 TOOLTIP CON LISTA (1.5s)
 let tooltipTimer = null;
 
 function iniciarTooltip(id, element) {
@@ -168,17 +220,20 @@ function iniciarTooltip(id, element) {
     const desbloquea = materias.filter(m => m.req.includes(id));
     if (desbloquea.length === 0) return;
 
-    tooltip.innerText = "Habilita: " + desbloquea.map(m => m.nombre).join(", ");
+    tooltip.innerHTML = `<strong>Habilita:</strong><ul style="margin: 5px 0; padding-left: 18px;">` +
+      desbloquea.map(m => `<li>${m.nombre}</li>`).join("") +
+      `</ul>`;
+
     const rect = element.getBoundingClientRect();
-    tooltip.style.left = rect.left + "px";
-    tooltip.style.top = rect.bottom + 5 + "px";
+    tooltip.style.left = `${rect.left}px`;
+    tooltip.style.top = `${rect.bottom + 5}px`;
     tooltip.classList.remove("hidden");
-  }, 3000);
+  }, 1500);
 }
 
 function ocultarTooltip() {
   clearTimeout(tooltipTimer);
-  document.getElementById("tooltip").classList.add("hidden");
+  const tooltip = document.getElementById("tooltip");
+  tooltip.classList.add("hidden");
+  tooltip.innerHTML = "";
 }
-
-window.onload = renderMalla;
